@@ -1,37 +1,57 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Recipe } from '../shared/types/Recipe';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import ListItem from './ListItem';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+
   useEffect(() => {
-    fetch('/api')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setRecipes(data);
-      });
+    async function fetchData() {
+      const response = await fetch('/api');
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      setRecipes(data);
+    }
+
+    fetchData();
   }, []);
 
+  async function handleDelete(id: number): Promise<void> {
+    // lösche den Datensatz aus dem State
+    setRecipes((recipes) => {
+      return recipes.filter((recipe) => recipe.id !== id);
+    });
+    // lösche den Datensatz auf dem Server
+  }
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Title</th>
-        </tr>
-      </thead>
-      <tbody>
-        {recipes.map((recipe) => {
-          return (
-            <tr>
-              <td>{recipe.id}</td>
-              <td>{recipe.title}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Id</TableCell>
+            <TableCell>Title</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {recipes.map((recipe) => (
+            <ListItem key={recipe.id} recipe={recipe} onDelete={handleDelete} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
