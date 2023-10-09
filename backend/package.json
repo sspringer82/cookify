@@ -1,0 +1,20 @@
+{
+  "name": "cookify-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.18",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
