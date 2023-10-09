@@ -29,11 +29,15 @@ const List: React.FC = () => {
   }, []);
 
   async function handleDelete(id: number): Promise<void> {
-    // lösche den Datensatz aus dem State
-    setRecipes((recipes) => {
-      return recipes.filter((recipe) => recipe.id !== id);
+    const response = await fetch('/api/recipe/' + id, {
+      method: 'DELETE',
     });
-    // lösche den Datensatz auf dem Server
+
+    if (response.ok) {
+      setRecipes((recipes) => {
+        return recipes.filter((recipe) => recipe.id !== id);
+      });
+    }
   }
 
   return (
