@@ -12,3 +12,5 @@ export interface Recipe {
   preparationDuration: string; // z.B. '20min' oder '1hr'
   rating: number; // 0-5
 }
+
+export type CreateRecipe = Omit<Recipe, 'id'>;
