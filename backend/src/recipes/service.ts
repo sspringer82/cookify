@@ -1,9 +1,17 @@
 import { Recipe, CreateRecipe } from '../types/Recipe';
 import { data } from '../data';
+import { Database } from 'sqlite3';
+
+const db = new Database('./db/db.sqlite3');
 
 const service = {
   async getAll(): Promise<Recipe[]> {
-    return Promise.resolve(data);
+    return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM Recipes', (error, data) => {
+        console.log(data);
+        resolve(data as Recipe[]);
+      });
+    });
   },
   async getOne(id: number): Promise<Recipe | undefined> {
     const recipe = data.find((r) => {
