@@ -1,6 +1,4 @@
-import { data } from '../data';
 import { Request, Response } from 'express';
-import getIndexOfElement from './util';
 import service from './service';
 
 const controller = {
@@ -17,20 +15,23 @@ const controller = {
 
   async create(request: Request, response: Response) {
     const newData = await service.create(request.body);
-    response.json(newData);
+    response.status(201).json(newData);
   },
 
-  update(request: Request, response: Response) {
+  async update(request: Request, response: Response) {
     const changedData = request.body;
-    const index = getIndexOfElement(request, data);
-    data[index] = changedData;
-    response.json(changedData);
+
+    const updateData = await service.update(changedData);
+
+    response.json(updateData);
   },
 
-  remove(request: Request, response: Response) {
-    const index = getIndexOfElement(request, data);
-    data.splice(index, 1);
-    response.send();
+  async remove(request: Request, response: Response) {
+    const id = parseInt(request.params.id, 10);
+
+    await service.remove(id);
+
+    response.status(204).send();
   },
 };
 

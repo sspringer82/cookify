@@ -23,7 +23,18 @@ const service = {
     return newData;
   },
 
-  async update(recipe: Recipe): Promise<Recipe> {},
+  async update(recipe: Recipe): Promise<Recipe> {
+    const index = data.findIndex(
+      (existingRecipe) => existingRecipe.id === recipe.id
+    );
+    data[index] = recipe;
+    return recipe;
+  },
+
+  async remove(id: number): Promise<void> {
+    const index = data.findIndex((existingRecipe) => existingRecipe.id === id);
+    data.splice(index, 1);
+  },
 };
 
 export default service;
