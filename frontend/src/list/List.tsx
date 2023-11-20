@@ -16,7 +16,7 @@ const List: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/api');
+      const response = await fetch('/api/recipes');
       if (!response.ok) {
         return;
       }
@@ -29,7 +29,7 @@ const List: React.FC = () => {
   }, []);
 
   async function handleDelete(id: number): Promise<void> {
-    const response = await fetch('/api/recipe/' + id, {
+    const response = await fetch('/api/recipes/' + id, {
       method: 'DELETE',
     });
 

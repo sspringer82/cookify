@@ -1,3 +1,2 @@
 # todo
-- Server API - CRUD
-- Create/Edit Form
+- Auth, Validierung, Relationen
