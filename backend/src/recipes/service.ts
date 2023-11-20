@@ -3,8 +3,6 @@ import { data } from '../data';
 import { Database } from 'sqlite3';
 import { PrismaClient } from '@prisma/client';
 
-const db = new Database('./db/db.sqlite3');
-
 const prisma = new PrismaClient();
 
 const service = {
