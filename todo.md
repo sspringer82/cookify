@@ -1,2 +1,4 @@
 # todo
-- Auth, Validierung, Relationen
+- fix prisma schema + relations
+- frontend - auth
+- frontend - create + update

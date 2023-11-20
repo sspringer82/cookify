@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import service from './service';
 
+import { validationResult } from 'express-validator';
+
 const controller = {
   async getAll(request: Request, response: Response) {
     const data = await service.getAll();
@@ -14,6 +16,11 @@ const controller = {
   },
 
   async create(request: Request, response: Response) {
+    const result = validationResult(request);
+    if (!result.isEmpty()) {
+      response.status(400).send('you screwed it!');
+      return;
+    }
     const newData = await service.create(request.body);
     response.status(201).json(newData);
   },
