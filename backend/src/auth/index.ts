@@ -12,9 +12,8 @@ app.post('/', async (request, response) => {
   const credentials = request.body as Credentials;
   const user = await prisma.user.findUnique({ where: credentials });
 
-  delete (user as any).password;
-
   if (user) {
+    delete (user as any).password;
     const token = sign(user, 'topSecret');
 
     response.json({ token });

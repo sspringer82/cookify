@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Recipe } from '../shared/types/Recipe';
 import {
   Paper,
@@ -10,13 +10,27 @@ import {
   TableRow,
 } from '@mui/material';
 import ListItem from './ListItem';
+import { tokenContext } from '../TokenProvider';
+import { useNavigate } from 'react-router-dom';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [token] = useContext(tokenContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token === '') {
+      navigate('/');
+    }
+  }, [token, navigate]);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/api/recipes');
+      const response = await fetch('/api/recipes', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         return;
       }

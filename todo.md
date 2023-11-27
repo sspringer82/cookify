@@ -1,4 +1,4 @@
 # todo
 - fix prisma schema + relations
-- frontend - auth
 - frontend - create + update
+- FE: Wrap all secured routes into parent route that verifies login

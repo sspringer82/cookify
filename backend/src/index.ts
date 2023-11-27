@@ -2,8 +2,10 @@ import express from 'express';
 import recipeRouter from './recipes/index';
 import authRouter from './auth/index';
 import { expressjwt } from 'express-jwt';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use(

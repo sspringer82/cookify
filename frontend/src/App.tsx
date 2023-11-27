@@ -1,7 +1,12 @@
-import List from './list/List';
+import TokenProvider from './TokenProvider';
+import Router from './Router';
 
 function App() {
-  return <List />;
+  return (
+    <TokenProvider>
+      <Router />
+    </TokenProvider>
+  );
 }
 
 export default App;
