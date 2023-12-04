@@ -21,8 +21,12 @@ const controller = {
       response.status(400).send('you screwed it!');
       return;
     }
-    const newData = await service.create(request.body);
-    response.status(201).json(newData);
+    try {
+      const newData = await service.create(request.body);
+      response.status(201).json(newData);
+    } catch (error) {
+      response.status(409).send('Recipe already exists');
+    }
   },
 
   async update(request: Request, response: Response) {

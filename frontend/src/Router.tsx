@@ -3,6 +3,7 @@ import Login from './login/Login';
 import List from './list/List';
 import { tokenContext } from './TokenProvider';
 import { useContext } from 'react';
+import Form from './form/form';
 
 type Props = {
   children: React.ReactNode;
@@ -22,6 +23,14 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route
+          path="/new"
+          element={
+            <IsLoggedIn>
+              <Form />
+            </IsLoggedIn>
+          }
+        />
         <Route
           path="/list"
           element={

@@ -1,6 +1,4 @@
 import { Recipe, CreateRecipe } from '../types/Recipe';
-import { data } from '../data';
-import { Database } from 'sqlite3';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -13,8 +11,14 @@ const service = {
     return prisma.recipe.findUnique({ where: { id } }) as any;
   },
 
-  async create(recipe: CreateRecipe): Promise<Recipe> {
-    return prisma.recipe.create(recipe as any) as any;
+  async create(recipe: CreateRecipe): Promise<any> {
+    try {
+      const createdRecipe = await prisma.recipe.create({ data: recipe });
+      return createdRecipe;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Already exists');
+    }
   },
 
   async update(recipe: Recipe): Promise<Recipe> {

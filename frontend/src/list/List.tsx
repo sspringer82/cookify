@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Recipe } from '../shared/types/Recipe';
 import {
+  Fab,
   Paper,
   Table,
   TableBody,
@@ -11,11 +12,15 @@ import {
 } from '@mui/material';
 import ListItem from './ListItem';
 import { tokenContext } from '../TokenProvider';
-import { fetchData, removeRecipe } from '../shared/api/recipe';
+import { fetchData, removeRecipe } from '../shared/api/recipe.api';
+
+import { Add } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [token] = useContext(tokenContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData(token).then((serverRecipes) => setRecipes(serverRecipes));
@@ -51,6 +56,13 @@ const List: React.FC = () => {
           ))}
         </TableBody>
       </Table>
+      <Fab
+        sx={{ position: 'fixed', right: 30, bottom: 10 }}
+        color="secondary"
+        onClick={() => navigate('/new')}
+      >
+        <Add />
+      </Fab>
     </TableContainer>
   );
 };
