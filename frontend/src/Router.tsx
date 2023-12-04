@@ -32,6 +32,14 @@ function Router() {
           }
         />
         <Route
+          path="/edit/:id"
+          element={
+            <IsLoggedIn>
+              <Form />
+            </IsLoggedIn>
+          }
+        />
+        <Route
           path="/list"
           element={
             <IsLoggedIn>

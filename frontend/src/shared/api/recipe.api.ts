@@ -15,6 +15,24 @@ export async function fetchData(token: string): Promise<Recipe[]> {
   return data;
 }
 
+export async function fetchRecipeById(
+  id: string,
+  token: string
+): Promise<Recipe> {
+  const response = await fetch(`/api/recipes/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('could not load data');
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function removeRecipe(id: number, token: string): Promise<void> {
   const response = await fetch('/api/recipes/' + id, {
     method: 'DELETE',
@@ -28,12 +46,20 @@ export async function removeRecipe(id: number, token: string): Promise<void> {
   }
 }
 
-export async function createRecipe(
+export async function save(
   newRecipe: CreateRecipe,
   token: string
 ): Promise<Recipe> {
-  const response = await fetch('/api/recipes', {
-    method: 'POST',
+  let url = '/api/recipes';
+  let method = 'POST';
+
+  if (newRecipe.id !== undefined) {
+    url += `/${newRecipe.id}`;
+    method = 'PUT';
+  }
+
+  const response = await fetch(url, {
+    method,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

@@ -3,4 +3,4 @@ export interface Recipe {
   title: string;
 }
 
-export type CreateRecipe = Omit<Recipe, 'id'>;
+export type CreateRecipe = Omit<Recipe, 'id'> & { id?: number };

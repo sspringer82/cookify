@@ -1,6 +1,8 @@
 import { TableRow, TableCell, Button } from '@mui/material';
 import { Recipe } from '../shared/types/Recipe';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   recipe: Recipe;
@@ -8,6 +10,7 @@ type Props = {
 };
 
 const ListItem: React.FC<Props> = ({ recipe: { id, title }, onDelete }) => {
+  const navigate = useNavigate();
   return (
     <TableRow
       key={id}
@@ -29,6 +32,17 @@ const ListItem: React.FC<Props> = ({ recipe: { id, title }, onDelete }) => {
           onClick={() => onDelete(id)}
         >
           delete
+        </Button>
+      </TableCell>
+      <TableCell>
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<EditIcon />}
+          onClick={() => navigate(`/edit/${id}`)}
+          color="secondary"
+        >
+          edit
         </Button>
       </TableCell>
     </TableRow>

@@ -48,6 +48,7 @@ const List: React.FC = () => {
           <TableRow>
             <TableCell>Id</TableCell>
             <TableCell>Title</TableCell>
+            <TableCell colSpan={2} />
           </TableRow>
         </TableHead>
         <TableBody>
