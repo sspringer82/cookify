@@ -12,6 +12,7 @@ import {
 import ListItem from './ListItem';
 import { tokenContext } from '../TokenProvider';
 import { useNavigate } from 'react-router-dom';
+import { fetchData, removeRecipe } from '../shared/api/recipe';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -25,33 +26,22 @@ const List: React.FC = () => {
   }, [token, navigate]);
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('/api/recipes', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        return;
-      }
+    fetchData(token).then((serverRecipes) => setRecipes(serverRecipes));
 
-      const data = await response.json();
-      setRecipes(data);
-    }
-
-    fetchData();
-  }, []);
+    // @todo error handling
+  }, [token]);
 
   async function handleDelete(id: number): Promise<void> {
-    const response = await fetch('/api/recipes/' + id, {
-      method: 'DELETE',
-    });
-
-    if (response.ok) {
-      setRecipes((recipes) => {
-        return recipes.filter((recipe) => recipe.id !== id);
-      });
+    if (!confirm('Bist du dir wirklich wirklich wirklich sicher?')) {
+      return;
     }
+    await removeRecipe(id, token);
+
+    // @todo error handling
+
+    setRecipes((recipes) => {
+      return recipes.filter((recipe) => recipe.id !== id);
+    });
   }
 
   return (
