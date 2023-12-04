@@ -68,6 +68,7 @@ const Login: React.FC = () => {
         )}
         <div className={style.formRow}>
           <TextField
+            autoFocus
             error={!!errors.username}
             helperText={errors.username?.message}
             label="Username"
