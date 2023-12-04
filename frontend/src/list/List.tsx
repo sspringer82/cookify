@@ -11,19 +11,11 @@ import {
 } from '@mui/material';
 import ListItem from './ListItem';
 import { tokenContext } from '../TokenProvider';
-import { useNavigate } from 'react-router-dom';
 import { fetchData, removeRecipe } from '../shared/api/recipe';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [token] = useContext(tokenContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (token === '') {
-      navigate('/');
-    }
-  }, [token, navigate]);
 
   useEffect(() => {
     fetchData(token).then((serverRecipes) => setRecipes(serverRecipes));
