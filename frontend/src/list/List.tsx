@@ -20,9 +20,12 @@ import { fetchData, removeRecipe } from '../shared/api/recipe.api';
 import { Add } from '@mui/icons-material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { recipeContext } from '../shared/components/RecipeProvider';
+import { useAtom } from 'jotai';
+import { recipesAtom } from '../shared/atoms/recipes.atom';
 
 const List: React.FC = () => {
-  const [recipes, setRecipes] = useContext(recipeContext);
+  // const [recipes, setRecipes] = useContext(recipeContext);
+  const [recipes, setRecipes] = useAtom(recipesAtom);
   const [token] = useContext(tokenContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');

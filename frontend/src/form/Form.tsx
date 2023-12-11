@@ -6,9 +6,12 @@ import { save, fetchRecipeById } from '../shared/api/recipe.api';
 import { useContext, useEffect, useState } from 'react';
 import { tokenContext } from '../TokenProvider';
 import { recipeContext } from '../shared/components/RecipeProvider';
+import { useAtom } from 'jotai';
+import { recipesAtom } from '../shared/atoms/recipes.atom';
 
 const Form: React.FC = () => {
-  const [, setRecipes] = useContext(recipeContext);
+  // const [, setRecipes] = useContext(recipeContext);
+  const [recipes, setRecipes] = useAtom(recipesAtom);
   const navigate = useNavigate();
   const [token] = useContext(tokenContext);
   const [error, setError] = useState<string>('');
