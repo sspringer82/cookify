@@ -1,12 +1,14 @@
-import { Box, Button, Card, TextField } from '@mui/material';
+import { Box, Button, Card, Dialog, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CreateRecipe, Recipe } from '../shared/types/Recipe';
 import { save, fetchRecipeById } from '../shared/api/recipe.api';
 import { useContext, useEffect, useState } from 'react';
 import { tokenContext } from '../TokenProvider';
+import { recipeContext } from '../shared/components/RecipeProvider';
 
 const Form: React.FC = () => {
+  const [, setRecipes] = useContext(recipeContext);
   const navigate = useNavigate();
   const [token] = useContext(tokenContext);
   const [error, setError] = useState<string>('');
@@ -23,7 +25,18 @@ const Form: React.FC = () => {
 
   async function onSubmit(newRecipe: CreateRecipe | Recipe) {
     try {
-      await save(newRecipe, token);
+      const serverRecipe = await save(newRecipe, token);
+
+      setRecipes((recipes) => {
+        if (editId) {
+          return recipes.map((recipe) =>
+            recipe.id === parseInt(editId, 10) ? serverRecipe : recipe
+          );
+        } else {
+          return [...recipes, serverRecipe];
+        }
+      });
+
       navigate('/list');
     } catch (error) {
       if (error instanceof Error) {
@@ -35,7 +48,7 @@ const Form: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Dialog open={true} onClose={() => navigate('/list')}>
       {error && <Box>{error}</Box>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -54,7 +67,7 @@ const Form: React.FC = () => {
           </Button>
         </div>
       </form>
-    </Card>
+    </Dialog>
   );
 };
 

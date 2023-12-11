@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Recipe } from '../shared/types/Recipe';
 import {
+  Dialog,
+  DialogTitle,
   Fab,
   Paper,
   Snackbar,
@@ -16,10 +18,11 @@ import { tokenContext } from '../TokenProvider';
 import { fetchData, removeRecipe } from '../shared/api/recipe.api';
 
 import { Add } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { recipeContext } from '../shared/components/RecipeProvider';
 
 const List: React.FC = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useContext(recipeContext);
   const [token] = useContext(tokenContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -27,7 +30,7 @@ const List: React.FC = () => {
   useEffect(() => {
     fetchData(token)
       .then((serverRecipes) => setRecipes(serverRecipes))
-      .catch((loadError) => {
+      .catch(() => {
         setError('Fehler beim Laden der Daten');
       });
   }, [token]);
@@ -48,7 +51,7 @@ const List: React.FC = () => {
   }
 
   let content = [
-    <TableRow>
+    <TableRow key={null}>
       <TableCell colSpan={4}>Keine Daten vorhanden</TableCell>
     </TableRow>,
   ];
@@ -61,6 +64,7 @@ const List: React.FC = () => {
 
   return (
     <TableContainer component={Paper}>
+      <Outlet />
       {error && (
         <Snackbar
           open={!!error}
@@ -82,7 +86,7 @@ const List: React.FC = () => {
       <Fab
         sx={{ position: 'fixed', right: 30, bottom: 10 }}
         color="secondary"
-        onClick={() => navigate('/new')}
+        onClick={() => navigate('/list/new')}
       >
         <Add />
       </Fab>

@@ -24,29 +24,16 @@ function Router() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
-          path="/new"
-          element={
-            <IsLoggedIn>
-              <Form />
-            </IsLoggedIn>
-          }
-        />
-        <Route
-          path="/edit/:id"
-          element={
-            <IsLoggedIn>
-              <Form />
-            </IsLoggedIn>
-          }
-        />
-        <Route
           path="/list"
           element={
             <IsLoggedIn>
               <List />
             </IsLoggedIn>
           }
-        />
+        >
+          <Route path="new" element={<Form />} />
+          <Route path="edit/:id" element={<Form />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

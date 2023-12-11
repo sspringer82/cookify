@@ -39,7 +39,7 @@ const ListItem: React.FC<Props> = ({ recipe: { id, title }, onDelete }) => {
           component="label"
           variant="contained"
           startIcon={<EditIcon />}
-          onClick={() => navigate(`/edit/${id}`)}
+          onClick={() => navigate(`/list/edit/${id}`)}
           color="secondary"
         >
           edit

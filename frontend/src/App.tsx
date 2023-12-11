@@ -1,10 +1,13 @@
 import TokenProvider from './TokenProvider';
 import Router from './Router';
+import { RecipeProvider } from './shared/components/RecipeProvider';
 
 function App() {
   return (
     <TokenProvider>
-      <Router />
+      <RecipeProvider>
+        <Router />
+      </RecipeProvider>
     </TokenProvider>
   );
 }
