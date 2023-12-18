@@ -1,17 +1,16 @@
-import { Box, Button, Card, Dialog, TextField } from '@mui/material';
+import { Box, Button, Dialog, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CreateRecipe, Recipe } from '../shared/types/Recipe';
 import { save, fetchRecipeById } from '../shared/api/recipe.api';
 import { useContext, useEffect, useState } from 'react';
 import { tokenContext } from '../TokenProvider';
-import { recipeContext } from '../shared/components/RecipeProvider';
 import { useAtom } from 'jotai';
 import { recipesAtom } from '../shared/atoms/recipes.atom';
 
 const Form: React.FC = () => {
   // const [, setRecipes] = useContext(recipeContext);
-  const [recipes, setRecipes] = useAtom(recipesAtom);
+  const [, setRecipes] = useAtom(recipesAtom);
   const navigate = useNavigate();
   const [token] = useContext(tokenContext);
   const [error, setError] = useState<string>('');
@@ -28,6 +27,9 @@ const Form: React.FC = () => {
 
   async function onSubmit(newRecipe: CreateRecipe | Recipe) {
     try {
+      newRecipe.caloriesPerPortion = 100;
+      newRecipe.difficulty = 'easy';
+      newRecipe.preparationDuration = '10 min';
       const serverRecipe = await save(newRecipe, token);
 
       setRecipes((recipes) => {

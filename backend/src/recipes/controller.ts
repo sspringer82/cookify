@@ -25,6 +25,7 @@ const controller = {
       const newData = await service.create(request.body);
       response.status(201).json(newData);
     } catch (error) {
+      console.log(error);
       response.status(409).send('Recipe already exists');
     }
   },

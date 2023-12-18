@@ -11,7 +11,7 @@ const service = {
     return prisma.recipe.findUnique({ where: { id } }) as any;
   },
 
-  async create(recipe: CreateRecipe): Promise<any> {
+  async create(recipe: any): Promise<any> {
     try {
       const createdRecipe = await prisma.recipe.create({ data: recipe });
       return createdRecipe;
