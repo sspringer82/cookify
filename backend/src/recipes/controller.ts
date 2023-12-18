@@ -6,7 +6,7 @@ import { sendCreatedRecipe } from '../websocket';
 
 const controller = {
   async getAll(request: Request, response: Response) {
-    const data = await service.getAll();
+    const data = await service.getAll(parseInt((request as any).auth.id, 10));
     response.json(data);
   },
 
@@ -23,7 +23,9 @@ const controller = {
       return;
     }
     try {
-      const newData = await service.create(request.body);
+      const recipe = { ...request.body, userId: (request as any).auth.id };
+
+      const newData = await service.create(recipe);
 
       sendCreatedRecipe(newData);
 

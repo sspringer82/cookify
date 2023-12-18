@@ -4,8 +4,12 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const service = {
-  async getAll(): Promise<Recipe[]> {
-    return prisma.recipe.findMany() as any;
+  async getAll(userId: number): Promise<Recipe[]> {
+    return prisma.recipe.findMany({
+      where: {
+        OR: [{ private: 0 }, { private: 1, userId }],
+      },
+    }) as any;
   },
   async getOne(id: number): Promise<Recipe | undefined> {
     return prisma.recipe.findUnique({ where: { id } }) as any;

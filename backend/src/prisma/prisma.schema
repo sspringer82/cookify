@@ -8,29 +8,33 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  username String  @unique
+  id       Int      @id @default(autoincrement())
+  username String   @unique
   password String
+  Recipe   Recipe[]
 }
 
 model Recipe {
-  id                  Int                @id @default(autoincrement())
+  id                  Int               @id @default(autoincrement())
   title               String
   caloriesPerPortion  Int
   difficulty          String
   preparationDuration String
-  rating              Int                @default(0) // 0-5
+  private             Int
+  rating              Int               @default(0) // 0-5
   ingredients         Ingredient[]
   preparationSteps    PreparationStep[]
   toolsRequired       Tool[]
+  userId              Int
+  User                User              @relation(fields: [userId], references: [id])
 }
 
 model Ingredient {
-  id       Int     @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   name     String
   quantity String
   recipeId Int
-  Recipe   Recipe  @relation(fields: [recipeId], references: [id])
+  Recipe   Recipe @relation(fields: [recipeId], references: [id])
 }
 
 model PreparationStep {

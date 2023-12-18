@@ -3,13 +3,17 @@ import { Recipe } from '../shared/types/Recipe';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
+import LockIcon from '@mui/icons-material/Lock';
 
 type Props = {
   recipe: Recipe;
   onDelete: (id: number) => void;
 };
 
-const ListItem: React.FC<Props> = ({ recipe: { id, title }, onDelete }) => {
+const ListItem: React.FC<Props> = ({
+  recipe: { id, title, private: privateRecipe },
+  onDelete,
+}) => {
   const navigate = useNavigate();
   return (
     <TableRow
@@ -23,7 +27,10 @@ const ListItem: React.FC<Props> = ({ recipe: { id, title }, onDelete }) => {
       <TableCell component="th" scope="row">
         {id}
       </TableCell>
-      <TableCell>{title}</TableCell>
+      <TableCell>
+        {title}
+        {privateRecipe === 1 && <LockIcon sx={{ color: 'gray' }} />}
+      </TableCell>
       <TableCell>
         <Button
           component="label"

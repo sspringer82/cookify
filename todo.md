@@ -1,9 +1,8 @@
 # todo
+- Liste durchsuchen und sortieren
+- Multi User (Ratings, Comments)
 - datenstruktur komplett abbilden
-- Websockets (automatische aktualisierungen)
-- Logout
 - Restaurantvorschlag (passend zum essen und dem aktuellen standort)
 - Einkaufsliste (?)
 - Kochanleitung auf YT
-- Multi User (Ratings, Comments)
 - Pro Account mit payment

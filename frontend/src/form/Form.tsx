@@ -30,17 +30,18 @@ const Form: React.FC = () => {
       newRecipe.caloriesPerPortion = 100;
       newRecipe.difficulty = 'easy';
       newRecipe.preparationDuration = '10 min';
-      const serverRecipe = await save(newRecipe, token);
+      newRecipe.private = 0;
+      await save(newRecipe, token);
 
-      setRecipes((recipes) => {
-        if (editId) {
-          return recipes.map((recipe) =>
-            recipe.id === parseInt(editId, 10) ? serverRecipe : recipe
-          );
-        } else {
-          return [...recipes, serverRecipe];
-        }
-      });
+      // setRecipes((recipes) => {
+      //   if (editId) {
+      //     return recipes.map((recipe) =>
+      //       recipe.id === parseInt(editId, 10) ? serverRecipe : recipe
+      //     );
+      //   } else {
+      //     return [...recipes, serverRecipe];
+      //   }
+      // });
 
       navigate('/list');
     } catch (error) {
