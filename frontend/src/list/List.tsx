@@ -18,6 +18,7 @@ import { Add } from '@mui/icons-material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { recipesAtom } from '../shared/atoms/recipes.atom';
+import Logout from '../login/Logout';
 
 const List: React.FC = () => {
   const [recipes, setRecipes] = useAtom(recipesAtom);
@@ -80,34 +81,37 @@ const List: React.FC = () => {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Outlet />
-      {error && (
-        <Snackbar
-          open={!!error}
-          autoHideDuration={6_000}
-          message={error}
-          onClose={() => setError('')}
-        />
-      )}
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell colSpan={2} />
-          </TableRow>
-        </TableHead>
-        <TableBody>{content}</TableBody>
-      </Table>
-      <Fab
-        sx={{ position: 'fixed', right: 30, bottom: 10 }}
-        color="secondary"
-        onClick={() => navigate('/list/new')}
-      >
-        <Add />
-      </Fab>
-    </TableContainer>
+    <>
+      <Logout />
+      <TableContainer component={Paper}>
+        <Outlet />
+        {error && (
+          <Snackbar
+            open={!!error}
+            autoHideDuration={6_000}
+            message={error}
+            onClose={() => setError('')}
+          />
+        )}
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Id</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell colSpan={2} />
+            </TableRow>
+          </TableHead>
+          <TableBody>{content}</TableBody>
+        </Table>
+        <Fab
+          sx={{ position: 'fixed', right: 30, bottom: 10 }}
+          color="secondary"
+          onClick={() => navigate('/list/new')}
+        >
+          <Add />
+        </Fab>
+      </TableContainer>
+    </>
   );
 };
 
