@@ -1,6 +1,7 @@
 # todo
 - datenstruktur komplett abbilden
 - Websockets (automatische aktualisierungen)
+- Logout
 - Restaurantvorschlag (passend zum essen und dem aktuellen standort)
 - Einkaufsliste (?)
 - Kochanleitung auf YT

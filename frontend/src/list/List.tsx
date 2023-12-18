@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Recipe } from '../shared/types/Recipe';
 import {
-  Dialog,
-  DialogTitle,
   Fab,
   Paper,
   Snackbar,
@@ -19,16 +16,33 @@ import { fetchData, removeRecipe } from '../shared/api/recipe.api';
 
 import { Add } from '@mui/icons-material';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { recipeContext } from '../shared/components/RecipeProvider';
 import { useAtom } from 'jotai';
 import { recipesAtom } from '../shared/atoms/recipes.atom';
 
 const List: React.FC = () => {
-  // const [recipes, setRecipes] = useContext(recipeContext);
   const [recipes, setRecipes] = useAtom(recipesAtom);
   const [token] = useContext(tokenContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8080');
+    socket.addEventListener('open', () => {
+      console.log('socket ready');
+    });
+
+    socket.addEventListener('error', (event) => {
+      console.log(event);
+    });
+
+    socket.addEventListener('message', (event) => {
+      setRecipes((recipes) => [...recipes, JSON.parse(event.data)]);
+    });
+
+    return () => {
+      socket.close();
+    };
+  }, [setRecipes]);
 
   useEffect(() => {
     fetchData(token)

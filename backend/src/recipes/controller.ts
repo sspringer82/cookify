@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import service from './service';
 
 import { validationResult } from 'express-validator';
+import { sendCreatedRecipe } from '../websocket';
 
 const controller = {
   async getAll(request: Request, response: Response) {
@@ -23,6 +24,9 @@ const controller = {
     }
     try {
       const newData = await service.create(request.body);
+
+      sendCreatedRecipe(newData);
+
       response.status(201).json(newData);
     } catch (error) {
       console.log(error);
